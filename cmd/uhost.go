@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/lvyangyang/uhost_cli/backen"
 
@@ -12,11 +11,11 @@ import (
 func initUhostCmd() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "uhost",
-		Short: "uhost util",
-		Long:  "create host,get host infor and config host",
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("get into host cmd" + strings.Join(args, " "))
-		},
+		Short: "uhost cli util use ucloud api",
+		Long:  "full api function about uhost",
+		//	Run: func(cmd *cobra.Command, args []string) {
+		//		fmt.Println("get into host cmd" + strings.Join(args, " "))
+		//	},
 	}
 	cmd.AddCommand(initGetUHostInstanceVncInfoCmd())
 	cmd.AddCommand(initStartUHostInstanceCmd())

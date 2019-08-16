@@ -24,11 +24,9 @@ func initCmdRoot() *cobra.Command {
 		PreRun: func(cmd *cobra.Command, args []string) {
 			flagConfigSet(cmd, args)
 		},
-		Run: func(cmd *cobra.Command, args []string) {
-
-			fmt.Println("get into root cmd/n")
-			fmt.Println(backen.APIArgs.PublicKey)
-		},
+		//	Run: func(cmd *cobra.Command, args []string) {
+		//		fmt.Println("get into root cmd/n")
+		//	},
 	}
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is config.json)")
 	rootCmd.PersistentFlags().StringVar(&backen.APIArgs.PublicKey, "publickey", "", "user PublicKey")
