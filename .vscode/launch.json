@@ -14,7 +14,7 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {},
-            "args": ["uhost", "UpgradeToArkUHostInstance", "-R" ,"cn-bj2","-Z" ,"cn-bj2-04","--UHostIds.n","uhost-oldgjis5"]
-        }
+            "args": ["uhost", "DescribeIsolationGroup", "-R" ,"cn-bj2"]
+        } 
     ]
 }

@@ -32,6 +32,21 @@ func initUhostCmd() *cobra.Command {
 	cmd.AddCommand(initCreateIsolationGroupCmd())
 	cmd.AddCommand(initResetUHostInstancePasswordCmd())
 	cmd.AddCommand(initUpgradeToArkUHostInstanceCmd())
+	cmd.AddCommand(initGetUHostInstancePriceCmd())
+	cmd.AddCommand(initDescribeUHostInstanceCmd())
+	cmd.AddCommand(initCreateCustomImageCmd())
+	cmd.AddCommand(initGetAttachedDiskUpgradePriceCmd())
+	cmd.AddCommand(initCopyCustomImageCmd())
+	cmd.AddCommand(initDescribeImageCmd())
+	cmd.AddCommand(initDeleteIsolationGroupCmd())
+	cmd.AddCommand(initModifyUHostInstanceRemarkCmd())
+	cmd.AddCommand(initResizeAttachedDiskCmd())
+	cmd.AddCommand(initImportCustomImageCmd())
+	cmd.AddCommand(initPoweroffUHostInstanceCmd())
+	cmd.AddCommand(initReinstallUHostInstanceCmd())
+	cmd.AddCommand(initGetUHostUpgradePriceCmd())
+	cmd.AddCommand(initTerminateCustomImageCmd())
+	cmd.AddCommand(initDescribeIsolationGroupCmd())
 	return cmd
 }
 
@@ -197,23 +212,22 @@ func initCreateUHostInstanceCmd() *cobra.Command {
 	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Mirror ID. Please get it through DescribeImage")
 	cmd.MarkFlagRequired("ImageId")
 
-	cmd.Flags().StringVar(&backen.APIArgs.LoginMode, "LoginMode", "Password", "Host login mode. (default option): Password.")
+	cmd.Flags().StringVar(&backen.APIArgs.LoginMode, "LoginMode", "", "Host login mode. (default option): Password.")
 
 	cmd.Flags().StringVarP(&backen.APIArgs.Password, "Password", "P", "", "UHost password.")
-	cmd.MarkFlagRequired("Password")
 
-	cmd.Flags().StringVar(&backen.APIArgs.MachineType, "MachineType", "N", "Cloud host model (V2.0), enumeration values ['N', 'C', 'G', 'O']. Refer to the cloud host model description.")
+	cmd.Flags().StringVar(&backen.APIArgs.MachineType, "MachineType", "", "Cloud host model (V2.0), enumeration values ['N', 'C', 'G', 'O']. Refer to the cloud host model description.")
 
-	cmd.Flags().StringVar(&backen.APIArgs.MinimalCpuPlatform, "MinimalCpuPlatform", "Intel/Auto", "Minimum cpu platform, enumeration values [Intel/Auto, Intel/IvyBridge, Intel/Haswell, Intel/Broadwell, Intel/Skylake, Intel/Cascadelake")
+	cmd.Flags().StringVar(&backen.APIArgs.MinimalCpuPlatform, "MinimalCpuPlatform", "", "Minimum cpu platform, enumeration values [Intel/Auto, Intel/IvyBridge, Intel/Haswell, Intel/Broadwell, Intel/Skylake, Intel/Cascadelake")
 
 	cmd.Flags().IntVar(&backen.APIArgs.CPU, "CPU", 0, "virtual cpu nums,range:[1,16],must be a power of 2 except 1,default is current cpu nums")
 	cmd.Flags().IntVar(&backen.APIArgs.Memory, "Memory", 0, "memory size in MB,range:[2048,65536],default is current memory size")
 	cmd.Flags().StringVar(&backen.APIArgs.GpuType, "GpuType", "", "GPU type, enumeration value [K80, P40, V100]")
 	cmd.Flags().IntVar(&backen.APIArgs.GPU, "GPU", 0, "The number of GPU card cores. This field is only supported on GPU models (optional range is related to UHostType)")
 
-	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNIsBoot, "Disks.N.IsBoot", []string{"True"}, "Whether it is a system disk. Enumeration value:> True, is the system disk> False, is the data disk (default). There is only one disk in the Disks array and it is the system disk.")
-	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNType, "Disks.N.Type", []string{"LOCAL_NORMAL"}, "Disk type. Please refer to the disk type.")
-	cmd.Flags().IntSliceVar(&backen.APIArgs.DisksNSize, "Disks.N.Size", []int{20}, "Disk size in GB. Please refer to the disk type.")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNIsBoot, "Disks.N.IsBoot", []string{}, "Whether it is a system disk. Enumeration value:> True, is the system disk> False, is the data disk (default). There is only one disk in the Disks array and it is the system disk.")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNType, "Disks.N.Type", []string{}, "Disk type. Please refer to the disk type.")
+	cmd.Flags().IntSliceVar(&backen.APIArgs.DisksNSize, "Disks.N.Size", []int{}, "Disk size in GB. Please refer to the disk type.")
 	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNBackupType, "Disks.N.BackupType", []string{"NONE"}, "Disk backup solution. Enumeration value:> NONE, no backup> DATAARK, data ark Backup mode reference supported by current disk")
 	cmd.Flags().BoolSliceVar(&backen.APIArgs.DisksNEncrypted, "Disks.N.Encrypted", []bool{}, "[The function is only partially available, open for technical support.] Is the disk encrypted? Encryption: true, no encryption: false. Encryption must be passed to the corresponding KmsKeyId")
 	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNKmsKeyId, "Disks.N.KmsKeyId", []string{}, "[The function is only partially available, open for technical support] kms key id. Required when selecting an encryption disk.")
@@ -385,33 +399,392 @@ func initGetUHostInstancePriceCmd() *cobra.Command {
 	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Mirror ID. Please get it through DescribeImage")
 	cmd.MarkFlagRequired("ImageId")
 
-	cmd.Flags().StringVar(&backen.APIArgs.MachineType, "MachineType", "N", "Cloud host model (V2.0), enumeration values ['N', 'C', 'G', 'O']. Refer to the cloud host model description.")
+	cmd.Flags().StringVar(&backen.APIArgs.MachineType, "MachineType", "", "Cloud host model (V2.0), enumeration values ['N', 'C', 'G', 'O']. Refer to the cloud host model description.")
 
-	cmd.Flags().IntVar(&backen.APIArgs.CPU, "CPU", 4, "CPU core count. Optional parameters: 1-64. The optional range is referenced to the console. Default: 4")
+	cmd.Flags().IntVar(&backen.APIArgs.CPU, "CPU", 0, "CPU core count. Optional parameters: 1-64. The optional range is referenced to the console. Default: 4")
 	cmd.MarkFlagRequired("CPU")
 
-	cmd.Flags().IntVar(&backen.APIArgs.Memory, "Memory", 8192, "memory size. Unit: MB. Range: [1024, 262144], the value is a multiple of 1024 (optional range refers to the good console). Default: 8192")
+	cmd.Flags().IntVar(&backen.APIArgs.Memory, "Memory", 0, "memory size. Unit: MB. Range: [1024, 262144], the value is a multiple of 1024 (optional range refers to the good console). Default: 8192")
 	cmd.MarkFlagRequired("Memory")
 
-	cmd.Flags().IntVar(&backen.APIArgs.Count, "Count", 1, "Number of purchases, range [1, 5]")
+	cmd.Flags().IntVar(&backen.APIArgs.Count, "Count", 0, "Number of purchases, range [1, 5]")
 	cmd.MarkFlagRequired("Count")
 
 	cmd.Flags().StringVar(&backen.APIArgs.GpuType, "GpuType", "", "GPU type, enumeration value [K80, P40, V100]")
 	cmd.Flags().IntVar(&backen.APIArgs.GPU, "GPU", 0, "The number of GPU card cores. This field is only supported on GPU models (optional range is related to UHostType)")
 
-	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNIsBoot, "Disks.N.IsBoot", []string{"True"}, "Whether it is a system disk. Enumeration value:> True, is the system disk> False, is the data disk (default). There is only one disk in the Disks array and it is the system disk.")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNIsBoot, "Disks.N.IsBoot", []string{}, "Whether it is a system disk. Enumeration value:> True, is the system disk> False, is the data disk (default). There is only one disk in the Disks array and it is the system disk.")
 	cmd.MarkFlagRequired("Disks.N.IsBoot")
 
-	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNType, "Disks.N.Type", []string{"LOCAL_NORMAL"}, "Disk type. Please refer to the disk type.")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNType, "Disks.N.Type", []string{}, "Disk type. Please refer to the disk type.")
 	cmd.MarkFlagRequired("Disks.N.Type")
 
-	cmd.Flags().IntSliceVar(&backen.APIArgs.DisksNSize, "Disks.N.Size", []int{20}, "Disk size in GB. Please refer to the disk type.")
+	cmd.Flags().IntSliceVar(&backen.APIArgs.DisksNSize, "Disks.N.Size", []int{}, "Disk size in GB. Please refer to the disk type.")
 	cmd.MarkFlagRequired("Disks.N.Size")
 
-	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNBackupType, "Disks.N.BackupType", []string{"NONE"}, "Disk backup solution. Enumeration value:> NONE, no backup> DATAARK, data ark Backup mode reference supported by current disk")
-	cmd.Flags().StringVar(&backen.APIArgs.NetCapability, "NetCapability", "Normal", "Network enhancement. Enumeration value: Normal (default), not enabled; Super, open network enhancement 1.0; Ultra, enable network enhancement 2.0 (only support some available areas, please refer to the console)")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DisksNBackupType, "Disks.N.BackupType", []string{}, "Disk backup solution. Enumeration value:> NONE, no backup> DATAARK, data ark Backup mode reference supported by current disk")
+	cmd.Flags().StringVar(&backen.APIArgs.NetCapability, "NetCapability", "", "Network enhancement. Enumeration value: Normal (default), not enabled; Super, open network enhancement 1.0; Ultra, enable network enhancement 2.0 (only support some available areas, please refer to the console)")
 	cmd.Flags().StringVar(&backen.APIArgs.ChargeType, "ChargeType", "", "Billing mode. The enumeration value is:> Year, pay annually;> Month, paying monthly;> Dynamic, pay by the hour The default is monthly payment")
 	cmd.Flags().IntVar(&backen.APIArgs.Quantity, "Quantity", 0, "The length of purchase. Default: value 1. This parameter is not required when purchasing by the hour (Dynamic). When paying monthly, this parameter is 0, which means purchase until the end of the month.")
+
+	return cmd
+}
+
+func initDescribeUHostInstanceCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "DescribeUHostInstance",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into DescribeUHostInstance")
+			backen.DescribeUHostInstance()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringSliceVar(&backen.APIArgs.UHostIdsN, "UHostIds.N", []string{}, "The resource ID of the UHost host, for example, UHostIds.0 represents the host 1 that you want to upgrade, and UHostIds.1 represents the host 2.")
+
+	cmd.Flags().StringVar(&backen.APIArgs.Tag, "Tag", "", "Business group name to be queried")
+	cmd.Flags().IntVar(&backen.APIArgs.Offset, "Offset", 0, "List start position offset, default is 0")
+	cmd.Flags().IntVar(&backen.APIArgs.Limit, "Limit", 0, "Returns the data length, the default is 20, the maximum 100")
+
+	cmd.Flags().StringVar(&backen.APIArgs.IsolationGroup, "IsolationGroup", "", "Hardware isolation group id. Filter hosts by hardware isolation group.")
+	cmd.Flags().StringVar(&backen.APIArgs.VPCId, "VPCId", "", "Vpc id. Filter the host through VPC. Beijing is ineffective.")
+	cmd.Flags().StringVar(&backen.APIArgs.SubnetId, "SubnetId", "", "Subnet id. Filter hosts by subnet. Beijing is ineffective.")
+	return cmd
+}
+
+func initCreateCustomImageCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "CreateCustomImage",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into CreateCustomImage")
+			backen.CreateCustomImage()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHostId")
+	cmd.MarkFlagRequired("UHostId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.ImageName, "ImageName", "", "ImageName")
+	cmd.MarkFlagRequired("ImageName")
+	cmd.Flags().StringVar(&backen.APIArgs.ImageDescription, "ImageDescription", "", "ImageDescription")
+
+	return cmd
+}
+
+func initGetAttachedDiskUpgradePriceCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "GetAttachedDiskUpgradePrice",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into GetAttachedDiskUpgradePrice")
+			backen.GetAttachedDiskUpgradePrice()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().IntVar(&backen.APIArgs.DiskSpace, "DiskSpace", 0, "Disk size, in GB, in steps of 10. The value range must be greater than the current disk size. For the maximum value, refer to the disk type.")
+	cmd.MarkFlagRequired("DiskSpace")
+
+	cmd.Flags().StringVar(&backen.APIArgs.DiskId, "DiskId", "", "DiskId")
+	cmd.MarkFlagRequired("DiskId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHostId")
+	cmd.MarkFlagRequired("UHostId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.BackupMode, "BackupMode", "", "Disk backup solution. Enumeration value: > NONE, no backup > DATAARK, data ark The backup mode reference disk type supported by the current disk. The default is the current backup mode.")
+
+	cmd.Flags().StringVar(&backen.APIArgs.ImageDescription, "ImageDescription", "", "ImageDescription")
+
+	return cmd
+}
+
+func initCopyCustomImageCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "CopyCustomImage",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into CopyCustomImage")
+			backen.CopyCustomImage()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.SourceImageId, "SourceImageId", "", "SourceImageId")
+	cmd.MarkFlagRequired("SourceImageId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.TargetRegion, "TargetRegion", "", "Target area")
+
+	cmd.Flags().StringVar(&backen.APIArgs.TargetProjectId, "TargetProjectId", "", "TargetProjectId")
+	cmd.MarkFlagRequired("TargetProjectId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.TargetImageName, "TargetImageName", "", "TargetImageName")
+
+	cmd.Flags().StringVar(&backen.APIArgs.TargetImageDescription, "TargetImageDescription", "", "ImageDescription")
+
+	return cmd
+}
+
+func initDescribeImageCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "DescribeImage",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into DescribeImage")
+			backen.DescribeImage()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.ImageType, "ImageType", "", "Mirror type. Standard image: Base, mirror market: Business, custom image: Custom, return all types by default")
+	cmd.Flags().StringVar(&backen.APIArgs.OsType, "OsType", "", "Operating system type: Linux, Windows returns all types by default")
+	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "ImageId")
+
+	cmd.Flags().IntVar(&backen.APIArgs.Offset, "Offset", 0, "List start position offset, default is 0")
+	cmd.Flags().IntVar(&backen.APIArgs.Limit, "Limit", 0, "Returns the data length, the default is 20, the maximum 100")
+	cmd.Flags().IntVar(&backen.APIArgs.PriceSet, "PriceSet", 0, "Whether to return the price: 1 return, 0 does not return; default does not return")
+
+	return cmd
+}
+
+func initDeleteIsolationGroupCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "DeleteIsolationGroup",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into DeleteIsolationGroup")
+			backen.DeleteIsolationGroup()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVar(&backen.APIArgs.GroupId, "GroupId", "", "Hardware isolation group id")
+
+	return cmd
+}
+
+func initModifyUHostInstanceRemarkCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "ModifyUHostInstanceRemark",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into ModifyUHostInstanceRemark")
+			backen.ModifyUHostInstanceRemark()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
+	cmd.MarkFlagRequired("UHostId")
+	cmd.Flags().StringVar(&backen.APIArgs.Remark, "Remark", "", "Remark")
+
+	return cmd
+}
+
+func initResizeAttachedDiskCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "ResizeAttachedDisk",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into ResizeAttachedDisk")
+			backen.ResizeAttachedDisk()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
+	cmd.MarkFlagRequired("UHostId")
+
+	cmd.Flags().IntVar(&backen.APIArgs.DiskSpace, "DiskSpace", 0, "Disk size, in GB, in steps of 10. The value range must be greater than the current disk size. For the maximum value, refer to the disk type.")
+	cmd.MarkFlagRequired("DiskSpace")
+
+	cmd.Flags().StringVar(&backen.APIArgs.DiskId, "DiskId", "", "DiskId")
+	cmd.MarkFlagRequired("DiskId")
+
+	return cmd
+}
+
+func initImportCustomImageCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "ImportCustomImage",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into ImportCustomImage")
+			backen.ImportCustomImage()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.ImageName, "ImageName", "", "ImageName")
+	cmd.MarkFlagRequired("ImageName")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UFileUrl, "UFileUrl", "", "UFileUrl")
+	cmd.MarkFlagRequired("UFileUrl")
+
+	cmd.Flags().StringVar(&backen.APIArgs.OsType, "OsType", "", "Operating system platforms, such as CentOS, Ubuntu, Windows, RedHat, etc., please refer to the mirrored version of the console; if you import the operating system that is not on the console, the parameter is Other")
+	cmd.MarkFlagRequired("OsType")
+
+	cmd.Flags().StringVar(&backen.APIArgs.OsName, "OsName", "", "For the detailed version of the operating system, please refer to the mirrored version of the console. When the OsType is Other, the input parameter is Other.")
+	cmd.MarkFlagRequired("OsName")
+
+	cmd.Flags().StringVar(&backen.APIArgs.Format, "Format", "", "Image format, optional RAW, VHD, VMDK, qcow2")
+	cmd.MarkFlagRequired("Format")
+
+	cmd.Flags().BoolVar(&backen.APIArgs.Auth, "Auth", true, "Authorized. Must be filled in true")
+	cmd.MarkFlagRequired("Auth")
+
+	cmd.Flags().IntVar(&backen.APIArgs.DiskSpace, "DiskSpace", 0, "Disk size, in GB, in steps of 10. The value range must be greater than the current disk size. For the maximum value, refer to the disk type.")
+	cmd.MarkFlagRequired("DiskSpace")
+
+	cmd.Flags().StringVar(&backen.APIArgs.DiskId, "DiskId", "", "DiskId")
+	cmd.MarkFlagRequired("DiskId")
+
+	return cmd
+}
+
+func initPoweroffUHostInstanceCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "PoweroffUHostInstance",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into PoweroffUHostInstance")
+			backen.PoweroffUHostInstance()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
+	cmd.MarkFlagRequired("UHostId")
+	return cmd
+}
+
+func initReinstallUHostInstanceCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "ReinstallUHostInstance",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into ReinstallUHostInstance")
+			backen.ReinstallUHostInstance()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
+	cmd.MarkFlagRequired("UHostId")
+
+	cmd.Flags().StringVar(&backen.APIArgs.Password, "Password", "", "If the login mode is Password, the password must be filled in. If the LoginMode is KeyPair, you do not need to fill it in. (The password format uses BASE64 encoding; LoginMode cannot be changed.)")
+	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Mirror Id, the default image is used by default. See DescribeImage")
+	cmd.Flags().StringVar(&backen.APIArgs.ReserveDisk, "ReserveDisk", "", "Whether to retain the data disk, keep: Yes, do not report: No, Default: Yes")
+	cmd.Flags().StringVar(&backen.APIArgs.ResourceType, "ResourceType", "", "Cloud disaster indication 191")
+	cmd.Flags().StringSliceVar(&backen.APIArgs.DNSServersN, "DNSServers.n", []string{}, "For non-private subnet hosts, you can customize DNS. n can be 0-2")
+	return cmd
+}
+
+func initGetUHostUpgradePriceCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "GetUHostUpgradePrice",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into GetUHostUpgradePrice")
+			backen.GetUHostUpgradePrice()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
+	cmd.MarkFlagRequired("UHostId")
+	cmd.Flags().IntVar(&backen.APIArgs.CPU, "CPU", 0, "virtual cpu nums,range:[1,16],must be a power of 2 except 1,default is current cpu nums")
+	cmd.Flags().IntVar(&backen.APIArgs.Memory, "Memory", 0, "memory size in MB,range:[2048,65536],default is current memory size")
+	cmd.Flags().IntVar(&backen.APIArgs.NetCapValue, "NetCapValue", 0, "NIC lifting level (1, indicating upgrade, 2 means downgrade, 0 means unchanged)")
+	return cmd
+}
+
+func initTerminateCustomImageCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "TerminateCustomImage",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into TerminateCustomImage")
+			backen.TerminateCustomImage()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
+	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Homemade Mirror ID See DescribeImage")
+	cmd.MarkFlagRequired("ImageId")
+	return cmd
+}
+
+func initDescribeIsolationGroupCmd() *cobra.Command {
+	cmd := &cobra.Command{
+		Use: "DescribeIsolationGroup",
+		PreRun: func(cmd *cobra.Command, args []string) {
+			flagConfigSet(cmd, args)
+		},
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("get into DescribeIsolationGroup")
+			backen.DescribeIsolationGroup()
+		},
+	}
+	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
+	cmd.MarkFlagRequired("Region")
+
+	cmd.Flags().StringVar(&backen.APIArgs.GroupId, "GroupId", "", "Hardware isolation group id to be queried")
+
+	cmd.Flags().IntVar(&backen.APIArgs.Offset, "Offset", 0, "List start position offset, default is 0")
+	cmd.Flags().IntVar(&backen.APIArgs.Limit, "Limit", 0, "Returns the data length, the default is 20, the maximum 100")
 
 	return cmd
 }

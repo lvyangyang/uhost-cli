@@ -20,6 +20,8 @@ var apiAddr = "https://api.ucloud.cn"
 
 const maxArraySize = 20
 
+var timeoutLimit = 15 * time.Second
+
 type publicParams struct {
 	PublicKey  string `json:"PublicKey"`
 	PrivateKey string `json:"PrivateKey"`
@@ -32,40 +34,60 @@ type resourceParams struct {
 	Zone      string `json:"Zone"`
 	UHostId   string `json:"UHostId"`
 	ProjectId string `json:"ProjectId"`
-	GroupId   string
-	GroupName string
-	Remark    string
+	GroupId   string `json:"GroupId"`
+	GroupName string `json:"GroupName"`
+	Remark    string `json:"Remark"`
 }
 
 type actionParams struct {
-	DiskPassword       string `json:"DiskPassword"`
-	Destroy            int    `json:"Destroy"`
-	CPU                int    `json:"CPU"`
-	Memory             int    `json:"Memory"`
-	DiskSpace          int    `json:"DiskSpace"`
-	BootDiskSpace      int    `json:"BootDiskSpace"`
-	NetCapValue        int    `json:"NetCapValue"`
-	ImageId            string `json:"ImageId"`
-	LoginMode          string `json:"LoginMode"`
-	Password           string `json:"Password"`
-	MachineType        string `json:"MachineType"`
-	UHostType          string `json:"UHostType"`
-	MinimalCpuPlatform string `json:"MinimalCpuPlatform"`
-	GpuType            string `json:"GpuType"`
-	GPU                int    `json:"GPU"`
-	NetCapability      string `json:"NetCapability"`
-	VPCId              string `json:"VPCId"`
-	SubnetId           string `json:"SubnetId"`
-	SecurityGroupId    string `json:"SecurityGroupId"`
-	AlarmTemplateId    int    `json:"AlarmTemplateId"`
-	IsolationGroup     string `json:"IsolationGroup"`
-	Name               string `json:"Name"`
-	Tag                string `json:"Tag"`
-	ChargeType         string `json:"ChargeType"`
-	Quantity           int    `json:"Quantity"`
-	MaxCount           int    `json:"MaxCount"`
-	CouponId           string `json:"CouponId"`
-	Count              int    `json:"Count"`
+	DiskPassword           string `json:"DiskPassword"`
+	Destroy                int    `json:"Destroy"`
+	CPU                    int    `json:"CPU"`
+	Memory                 int    `json:"Memory"`
+	DiskSpace              int    `json:"DiskSpace"`
+	BootDiskSpace          int    `json:"BootDiskSpace"`
+	NetCapValue            int    `json:"NetCapValue"`
+	ImageId                string `json:"ImageId"`
+	LoginMode              string `json:"LoginMode"`
+	Password               string `json:"Password"`
+	MachineType            string `json:"MachineType"`
+	UHostType              string `json:"UHostType"`
+	MinimalCpuPlatform     string `json:"MinimalCpuPlatform"`
+	GpuType                string `json:"GpuType"`
+	GPU                    int    `json:"GPU"`
+	NetCapability          string `json:"NetCapability"`
+	VPCId                  string `json:"VPCId"`
+	SubnetId               string `json:"SubnetId"`
+	SecurityGroupId        string `json:"SecurityGroupId"`
+	AlarmTemplateId        int    `json:"AlarmTemplateId"`
+	IsolationGroup         string `json:"IsolationGroup"`
+	Name                   string `json:"Name"`
+	Tag                    string `json:"Tag"`
+	ChargeType             string `json:"ChargeType"`
+	Quantity               int    `json:"Quantity"`
+	MaxCount               int    `json:"MaxCount"`
+	CouponId               string `json:"CouponId"`
+	Count                  int    `json:"Count"`
+	Offset                 int    `json:"Offset"`
+	Limit                  int    `json:"Limit"`
+	ImageName              string `json:"ImageName"`
+	ImageDescription       string `json:"ImageDescription"`
+	BackupMode             string `json:"BackupMode"`
+	DiskId                 string `json:"DiskId"`
+	SourceImageId          string `json:"SourceImageId"`
+	TargetRegion           string `json:"TargetRegion"`
+	TargetProjectId        string `json:"TargetProjectId"`
+	TargetImageName        string `json:"TargetImageName"`
+	TargetImageDescription string `json:"TargetImageDescription"`
+	ImageType              string `json:"ImageType"`
+	OsType                 string `json:"OsType"`
+	OsName                 string `json:"OsName"`
+	PriceSet               int    `json:"PriceSet"`
+	UFileUrl               string `json:"UFileUrl"`
+	Format                 string `json:"Format"`
+	Auth                   bool   `json:"Auth"`
+	ReserveDisk            string `json:"ReserveDisk"`
+	ResourceType           string `json:"ResourceType"`
 }
 
 type arrayParams struct {
@@ -86,6 +108,7 @@ type arrayParams struct {
 	NetworkInterfaceNEIPGlobalSSHPort     []int    `json:"NetworkInterface.N.EIP.GlobalSSH.Port"`
 	NetworkInterfaceNEIPCouponId          []string `json:"NetworkInterface.N.EIP.CouponId"`
 	NetworkInterfaceNEIPGlobalSSHAreaCode []string `json:"NetworkInterface.N.EIP.GlobalSSH.AreaCode	"`
+	DNSServersN                           []string `json:"DNSServers.N"`
 }
 
 type reqParams struct {
@@ -109,7 +132,7 @@ func MakeAPIRequset(paraments map[string]interface{}, privateKey string) {
 		return
 	}
 
-	client := &http.Client{Timeout: 15 * time.Second}
+	client := &http.Client{Timeout: timeoutLimit}
 	req, err := http.NewRequest("POST", apiAddr, bytes.NewReader(requestParams))
 	if err != nil {
 		log.Println(err)
@@ -125,7 +148,14 @@ func MakeAPIRequset(paraments map[string]interface{}, privateKey string) {
 
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
-	fmt.Println(string(body))
+
+	var prettyJSON bytes.Buffer
+	error := json.Indent(&prettyJSON, body, "", "\t")
+	if error != nil {
+		log.Println("JSON parse error: ", error)
+		return
+	}
+	fmt.Println(string(prettyJSON.Bytes()))
 }
 
 func ucloudAPISignGen(sourceMap map[string]interface{}, privateKey string) string {
