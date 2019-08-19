@@ -17,10 +17,10 @@ var defaultCfgFile = "config.json"
 
 func initCmdRoot() *cobra.Command {
 	cobra.OnInitialize(initConfig)
-	rootCmd := &cobra.Command{
-		Use:   "ucloudcli",
-		Short: "ucloudcli is an ucloudapi cli tool",
-		Long:  "ucloud api control tool",
+	cmd := &cobra.Command{
+		Use:   "uhost",
+		Short: "uhost cli util use ucloud api",
+		Long:  "full api function about uhost",
 		PreRun: func(cmd *cobra.Command, args []string) {
 			flagConfigSet(cmd, args)
 		},
@@ -28,25 +28,53 @@ func initCmdRoot() *cobra.Command {
 		//		fmt.Println("get into root cmd/n")
 		//	},
 	}
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is config.json)")
-	rootCmd.PersistentFlags().StringVar(&backen.APIArgs.PublicKey, "publickey", "", "user PublicKey")
-	rootCmd.PersistentFlags().StringVar(&backen.APIArgs.PrivateKey, "privatekey", "", "user PrivateKey")
-	rootCmd.PersistentFlags().StringVar(&backen.APIArgs.ProjectId, "projectid", projectid, "user projectid")
+	cmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is config.json)")
+	cmd.PersistentFlags().StringVar(&backen.APIArgs.PublicKey, "publickey", "", "user PublicKey")
+	cmd.PersistentFlags().StringVar(&backen.APIArgs.PrivateKey, "privatekey", "", "user PrivateKey")
+	cmd.PersistentFlags().StringVar(&backen.APIArgs.ProjectId, "projectid", projectid, "user projectid")
 
-	rootCmd.AddCommand(initUhostCmd())
-	return rootCmd
+	cmd.AddCommand(initGetUHostInstanceVncInfoCmd())
+	cmd.AddCommand(initStartUHostInstanceCmd())
+	cmd.AddCommand(initRebootUHostInstanceCmd())
+	cmd.AddCommand(initStopUHostInstanceCmd())
+	cmd.AddCommand(initDescribeUHostTagsCmd())
+	cmd.AddCommand(initTerminateUHostInstanceCmd())
+	cmd.AddCommand(initResizeUHostInstanceCmd())
+	cmd.AddCommand(initCreateUHostInstanceCmd())
+	cmd.AddCommand(initModifyUHostInstanceTagCmd())
+	cmd.AddCommand(initModifyUHostInstanceNameCmd())
+	cmd.AddCommand(initLeaveIsolationGroupCmd())
+	cmd.AddCommand(initCreateIsolationGroupCmd())
+	cmd.AddCommand(initResetUHostInstancePasswordCmd())
+	cmd.AddCommand(initUpgradeToArkUHostInstanceCmd())
+	cmd.AddCommand(initGetUHostInstancePriceCmd())
+	cmd.AddCommand(initDescribeUHostInstanceCmd())
+	cmd.AddCommand(initCreateCustomImageCmd())
+	cmd.AddCommand(initGetAttachedDiskUpgradePriceCmd())
+	cmd.AddCommand(initCopyCustomImageCmd())
+	cmd.AddCommand(initDescribeImageCmd())
+	cmd.AddCommand(initDeleteIsolationGroupCmd())
+	cmd.AddCommand(initModifyUHostInstanceRemarkCmd())
+	cmd.AddCommand(initResizeAttachedDiskCmd())
+	cmd.AddCommand(initImportCustomImageCmd())
+	cmd.AddCommand(initPoweroffUHostInstanceCmd())
+	cmd.AddCommand(initReinstallUHostInstanceCmd())
+	cmd.AddCommand(initGetUHostUpgradePriceCmd())
+	cmd.AddCommand(initTerminateCustomImageCmd())
+	cmd.AddCommand(initDescribeIsolationGroupCmd())
+	return cmd
 }
 
 func flagConfigSet(cmd *cobra.Command, args []string) {
 	if !cmd.Flags().Lookup("publickey").Changed {
-		if viper.Get("privatekey") != nil {
+		if viper.Get("publickey") != nil {
 			backen.APIArgs.PublicKey = viper.Get("publickey").(string)
 		}
 	}
 
 	if !cmd.Flags().Lookup("privatekey").Changed {
 
-		if viper.Get("publickey") != nil {
+		if viper.Get("privatekey") != nil {
 			backen.APIArgs.PrivateKey = viper.Get("privatekey").(string)
 		}
 	}
@@ -57,7 +85,6 @@ func flagConfigSet(cmd *cobra.Command, args []string) {
 			backen.APIArgs.ProjectId = viper.Get("projectid").(string)
 		}
 	}
-
 }
 
 func initConfig() {

@@ -14,7 +14,7 @@
             "mode": "auto",
             "program": "${fileDirname}",
             "env": {},
-            "args": ["uhost", "DescribeIsolationGroup", "-R" ,"cn-bj2"]
+            "args": ["DescribeIsolationGroup", "-R" ,"cn-bj2"]
         } 
     ]
 }
