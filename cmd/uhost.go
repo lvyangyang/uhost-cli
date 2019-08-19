@@ -20,7 +20,7 @@ func initGetUHostInstanceVncInfoCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -39,7 +39,7 @@ func initStartUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -60,7 +60,7 @@ func initRebootUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -81,7 +81,7 @@ func initStopUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -101,7 +101,7 @@ func initDescribeUHostTagsCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	return cmd
@@ -119,7 +119,7 @@ func initTerminateUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -140,7 +140,7 @@ func initResizeUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -164,11 +164,11 @@ func initCreateUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Mirror ID. Please get it through DescribeImage")
-	cmd.MarkFlagRequired("ImageId")
+	//cmd.MarkFlagRequired("ImageId")
 
 	cmd.Flags().StringVar(&backen.APIArgs.LoginMode, "LoginMode", "", "Host login mode. (default option): Password.")
 
@@ -226,7 +226,7 @@ func initModifyUHostInstanceTagCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -245,7 +245,7 @@ func initModifyUHostInstanceNameCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -265,7 +265,7 @@ func initLeaveIsolationGroupCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -286,7 +286,7 @@ func initCreateIsolationGroupCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.GroupName, "GroupName", "", "Hardware isolation group name. Please set the isolation group name according to the field specification")
 	cmd.MarkFlagRequired("GroupName")
@@ -306,7 +306,7 @@ func initResetUHostInstancePasswordCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
@@ -329,7 +329,7 @@ func initUpgradeToArkUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringSliceVar(&backen.APIArgs.UHostIdsN, "UHostIds.n", []string{}, "The resource ID of the UHost host, for example, UHostIds.0 represents the host 1 that you want to upgrade, and UHostIds.1 represents the host 2.")
@@ -351,7 +351,7 @@ func initGetUHostInstancePriceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Mirror ID. Please get it through DescribeImage")
@@ -400,7 +400,7 @@ func initDescribeUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringSliceVar(&backen.APIArgs.UHostIdsN, "UHostIds.N", []string{}, "The resource ID of the UHost host, for example, UHostIds.0 represents the host 1 that you want to upgrade, and UHostIds.1 represents the host 2.")
@@ -427,7 +427,7 @@ func initCreateCustomImageCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHostId")
@@ -452,7 +452,7 @@ func initGetAttachedDiskUpgradePriceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().IntVar(&backen.APIArgs.DiskSpace, "DiskSpace", 0, "Disk size, in GB, in steps of 10. The value range must be greater than the current disk size. For the maximum value, refer to the disk type.")
@@ -483,7 +483,7 @@ func initCopyCustomImageCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.SourceImageId, "SourceImageId", "", "SourceImageId")
@@ -513,7 +513,7 @@ func initDescribeImageCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.ImageType, "ImageType", "", "Mirror type. Standard image: Base, mirror market: Business, custom image: Custom, return all types by default")
@@ -539,7 +539,7 @@ func initDeleteIsolationGroupCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVar(&backen.APIArgs.GroupId, "GroupId", "", "Hardware isolation group id")
 
 	return cmd
@@ -557,7 +557,7 @@ func initModifyUHostInstanceRemarkCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
@@ -579,7 +579,7 @@ func initResizeAttachedDiskCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "UHost instance ID See DescribeUHostInstance")
@@ -606,7 +606,7 @@ func initImportCustomImageCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.ImageName, "ImageName", "", "ImageName")
@@ -648,7 +648,7 @@ func initPoweroffUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
@@ -669,7 +669,7 @@ func initReinstallUHostInstanceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 
@@ -696,7 +696,7 @@ func initGetUHostUpgradePriceCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.UHostId, "UHostId", "", "uhost id as a resource")
 	cmd.MarkFlagRequired("UHostId")
@@ -718,7 +718,7 @@ func initTerminateCustomImageCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 	cmd.Flags().StringVarP(&backen.APIArgs.Zone, "Zone", "Z", "", "zone is a subdistrict of a region")
 	cmd.Flags().StringVar(&backen.APIArgs.ImageId, "ImageId", "", "Homemade Mirror ID See DescribeImage")
 	cmd.MarkFlagRequired("ImageId")
@@ -737,7 +737,7 @@ func initDescribeIsolationGroupCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().StringVarP(&backen.APIArgs.Region, "Region", "R", "", "region where host locate")
-	cmd.MarkFlagRequired("Region")
+	//cmd.MarkFlagRequired("Region")
 
 	cmd.Flags().StringVar(&backen.APIArgs.GroupId, "GroupId", "", "Hardware isolation group id to be queried")
 

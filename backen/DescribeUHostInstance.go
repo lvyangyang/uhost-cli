@@ -6,6 +6,8 @@ import (
 
 //DescribeUHostInstance  启动host
 func DescribeUHostInstance() {
+	var setName = "UHostSet"
+	var tabs = []string{"UHostId", "Name", "Tag", "OsName", "CPU", "Memory", "State"}
 	paraments := make(map[string]interface{})
 	//公共参数
 	paraments["Action"] = "DescribeUHostInstance"
@@ -17,5 +19,7 @@ func DescribeUHostInstance() {
 	populateParams(APIArgs.resourceParams, paraments)
 	populateParams(APIArgs.arrayParams, paraments)
 
-	MakeAPIRequset(paraments, APIArgs.PrivateKey)
+	//MakeAPIRequset(paraments, APIArgs.PrivateKey)
+	body := makeAPIRequsetNoPrint(paraments, APIArgs.PrivateKey)
+	SimpleResultPrint(setName, tabs, body)
 }

@@ -17,5 +17,9 @@ func DescribeImage() {
 	populateParams(APIArgs.resourceParams, paraments)
 	populateParams(APIArgs.arrayParams, paraments)
 
-	MakeAPIRequset(paraments, APIArgs.PrivateKey)
+	//MakeAPIRequset(paraments, APIArgs.PrivateKey)
+	var setName = "ImageSet"
+	var tabs = []string{"ImageId", "ImageName", "Tag", "ImageType", "OsName"}
+	body := makeAPIRequsetNoPrint(paraments, APIArgs.PrivateKey)
+	SimpleResultPrint(setName, tabs, body)
 }

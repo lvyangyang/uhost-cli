@@ -85,6 +85,18 @@ func flagConfigSet(cmd *cobra.Command, args []string) {
 			backen.APIArgs.ProjectId = viper.Get("projectid").(string)
 		}
 	}
+	if !cmd.Flags().Lookup("Region").Changed {
+
+		if viper.Get("region") != nil {
+			backen.APIArgs.Region = viper.Get("region").(string)
+		}
+	}
+	if !cmd.Flags().Lookup("Zone").Changed {
+
+		if viper.Get("zone") != nil {
+			backen.APIArgs.Zone = viper.Get("zone").(string)
+		}
+	}
 }
 
 func initConfig() {

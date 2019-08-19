@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"reflect"
 	"sort"
 	"strconv"
@@ -121,41 +122,42 @@ type reqParams struct {
 //APIArgs 请求参数
 var APIArgs reqParams
 
-//MakeAPIRequset 通过post发起api请求
-func MakeAPIRequset(paraments map[string]interface{}, privateKey string) {
+func makeAPIRequsetNoPrint(paraments map[string]interface{}, privateKey string) []byte {
 	signature := ucloudAPISignGen(paraments, privateKey)
 	paraments["Signature"] = signature
 
 	requestParams, err := json.Marshal(paraments)
 	if err != nil {
+		fmt.Println(err)
 		log.Println(err)
-		return
+		os.Exit(-1)
 	}
 
 	client := &http.Client{Timeout: timeoutLimit}
 	req, err := http.NewRequest("POST", apiAddr, bytes.NewReader(requestParams))
 	if err != nil {
+		fmt.Println(err)
 		log.Println(err)
-		return
+		os.Exit(-1)
 	}
 	req.Header.Set("Content-Type", "application/json")
 	response, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
 		log.Println(err)
-		return
+		os.Exit(-1)
 	}
 
 	defer response.Body.Close()
 	body, err := ioutil.ReadAll(response.Body)
+	return body
+}
 
-	var prettyJSON bytes.Buffer
-	error := json.Indent(&prettyJSON, body, "", "\t")
-	if error != nil {
-		log.Println("JSON parse error: ", error)
-		return
-	}
-	fmt.Println(string(prettyJSON.Bytes()))
+//MakeAPIRequset 通过post发起api请求
+func MakeAPIRequset(paraments map[string]interface{}, privateKey string) {
+	body := makeAPIRequsetNoPrint(paraments, privateKey)
+
+	JSONPrettyPrint(body)
 }
 
 func ucloudAPISignGen(sourceMap map[string]interface{}, privateKey string) string {
